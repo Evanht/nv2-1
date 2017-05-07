@@ -52,3 +52,17 @@ body{
 .lecture-note-set .col-xs-1 img{
   margin-top: 12px !important;
 }
+
+.form-css {
+  color: black;
+}
+
+
+.form-css input {
+  background-color: white;
+  border: none;
+  border-radius: 3px;
+  margin-left: 5px;
+  padding: 10px;
+  height: 40px;
+}

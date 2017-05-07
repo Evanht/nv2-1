@@ -9,7 +9,9 @@ var Schema = mongoose.Schema;
 var LectureNotesSchema = new Schema({
   title: String,
   downloadCount: Number,
-  rating: Number
+  rating: Number,
+  description: String,
+  author: String
 });
 
 module.exports = mongoose.model('LectureNotes', LectureNotesSchema);

@@ -5,7 +5,8 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-const Subject = require('./model/subject')
+var Subject = require('./model/subjects');
+var LectureNotes = require('./model/LectureNotes')
 //and create our instances
 var app = express();
 var router = express.Router();
@@ -36,6 +37,61 @@ app.use(function(req, res, next) {
 router.get('/', function(req, res) {
   res.json({ message: 'API Initialized!'});
 });
+
+// SUBJECTS ROUTES ----------------------------------------------
+// We add the /subjects route to our /api router
+router.route('/subjects')
+  // retrieve all subjects from the database
+  .get(function(req, res) {
+    // looks at our subject schema
+    Subject.find(function(err, subjects) {
+      if (err)
+        res.send(err);
+      // respons wirth a json object of our database subjects
+      res.json(subjects)
+    });
+  })
+  // post new subject to the database
+  .post(function(req, res) {
+    var Newsubject = new Subject({
+      title: req.body.title,
+      image: req.body.image
+    });
+    // body parser lets us use the req.body
+    // subject.title = req.body.title;
+    // subject.image = req.body.image;
+
+    Newsubject.save(function(err, subject) {
+      if (err)
+        res.send(err);
+      res.json(subject);
+    });
+  });
+
+// LECTURE ROUTES -------------------------------------------------
+router.route('/lecture-notes')
+  .get(function (req, res) {
+    LectureNotes.find(function(err, LectureNotes){
+      if (err)
+        res.send(err);
+      res.json(LectureNotes)
+    });
+  })
+
+  .post(function(req, res) {
+    var NewLectureNotes = new LectureNotes({
+      title: req.body.title,
+      downloadCount: req.body.downloadCount,
+      rating: req.body.rating
+    });
+
+    NewLectureNotes.save(function(err, NewLectureNotes) {
+      if (err)
+        res.send(err);
+      res.json(NewLectureNotes)
+    });
+  })
+
 
 //Use our router configuration when we call /api
 app.use('/api', router);

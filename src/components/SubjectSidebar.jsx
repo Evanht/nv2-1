@@ -1,30 +1,50 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import axios from 'axios';
 import { Grid, Row, Col } from 'react-bootstrap';
 import CircleImage from './smallcomponents/CircleImage.jsx'
 
-const SubjectSidebar = (props) => {
-  return (
-    <div className="background-black">
-      <Grid fluid={true}>
-        {props.data.map( (subject) =>
-          <Row key={subject.id}>
-            <Col xs={12}>
-              <CircleImage url={subject.image}/>
-            </Col>
-          </Row>
-        )}
-      </Grid>
-    </div>
-  )
+
+class SubjectSidebar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {data: []};
+    this.loadSubjectsFromServer = this.loadSubjectsFromServer.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadSubjectsFromServer();
+    setInterval(this.loadSubjectsFromServer, this.props.pollInterval)
+  }
+
+  loadSubjectsFromServer() {
+    axios.get(this.props.url)
+      .then(res => {
+        this.setState({data: res.data})
+      })
+  }
+
+  render() {
+    return (
+      <div className="background-black">
+        <Grid fluid={true}>
+          {this.state.data.map( (subject) =>
+            <Row key={subject._id}>
+              <Col xs={12}>
+                <CircleImage url={subject.image}/>
+              </Col>
+            </Row>
+          )}
+        </Grid>
+      </div>
+    );
+  }
 }
 
+
 SubjectSidebar.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    route: PropTypes.string.isRequired
-  })).isRequired,
+  url: PropTypes.string.isRequired,
+  pollInterval: PropTypes.number.isRequired
 }
 
 export default SubjectSidebar

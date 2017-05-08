@@ -1,5 +1,23 @@
 .background-black {
-  background-color: black;
+  background-color: #2D2B2B;
+  height: 100vh;
+  width: 100%;
+  padding: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.background-community-sidebar {
+  background-color: #414141;
+  height: 100vh;
+  width: 100%;
+  padding: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.background-main-content-area{
+  background-color: #3D4146;
   height: 100vh;
   width: 100%;
   padding: 10px;
@@ -66,3 +84,35 @@ body{
   padding: 10px;
   height: 40px;
 }
+
+.community-sidebar-list {
+  list-style: none;
+  margin-top: 56px;
+}
+
+.community-sidebar-list h3 {
+  letter-spacing: 3px;
+  font-weight: 400;
+}
+
+.community-sidebar-list li {
+  margin-top: 20px;
+  padding-bottom: 5px;
+}
+
+a {
+  text-decoration: none;
+  color: #CFD0D0 !important;
+  font-weight: 200;
+  letter-spacing: 3px;
+
+}
+
+
+
+
+
+
+
+
+

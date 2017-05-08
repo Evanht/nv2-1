@@ -9,7 +9,9 @@ class LecturePage extends React.Component {
     super(props);
     this.state = {
       notes: [],
-      avatarUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Einstein-formal_portrait-35.jpg/220px-Einstein-formal_portrait-35.jpg"
+      avatarUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Einstein-formal_portrait-35.jpg/220px-Einstein-formal_portrait-35.jpg",
+      url: "http://localhost:3001/api/lecture-notes",
+      pollInterval: 2000
     }
     this.loadLectureNotes = this.loadLectureNotes.bind(this)
     this.onNotesSubmit = this.onNotesSubmit.bind(this)
@@ -17,18 +19,22 @@ class LecturePage extends React.Component {
 
   componentDidMount() {
     this.loadLectureNotes()
-    setInterval(this.loadLectureNotes, 2000)
+    this.interval = setInterval(this.loadLectureNotes, this.state.pollInterval)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval)
   }
 
   loadLectureNotes(){
-    axios.get(this.props.url)
+    axios.get(this.state.url)
       .then(res => {
           this.setState({notes: res.data})
         })
   }
 
   onNotesSubmit(notes) {
-    axios.post(this.props.url, notes)
+    axios.post(this.state.url, notes)
       .then(res => {
         this.setState({notes: res.data})
       })
